@@ -10,6 +10,7 @@ import {
 } from "../../apis/countries";
 import Loading from "../../components/loading/loading";
 import useDebounce from "../../hooks/useDebounce";
+import usePagination from "../../hooks/usePagination";
 
 const Home = () => {
   const [filter, setFilter] = useState({
@@ -19,6 +20,17 @@ const Home = () => {
   const [countries, setCountries] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errMsg, setErrMsg] = useState("");
+
+  const {
+    currentPage,
+    totalPages,
+    currentData: currentCountries,
+    nextPage,
+    prevPage,
+    goToPage,
+    resetPage,
+  } = usePagination(countries || [], 12);
+
 
   const debouncedSearch = useDebounce(filter.search, 500);
 
@@ -59,9 +71,9 @@ const Home = () => {
       }
     };
     fetchCountires();
+    resetPage();
   }, [debouncedSearch, filter.region]);
 
-  console.log(countries);
   return (
     <>
       <Filteration filter={filter} setFilter={setFilter} />
@@ -69,14 +81,20 @@ const Home = () => {
       {errMsg && (
         <h1 className="text-red-700 text-3xl p-3 rounded-2xl">{errMsg}</h1>
       )}
-      {!isLoading && countries && countries.length !== 0 && (
+      {!isLoading && countries && currentCountries.length !== 0 && (
         <>
           <CountriesWrapper>
-            {countries?.map((country) => (
+            {currentCountries?.map((country) => (
               <CountryCard key={country.name.common} country={country} />
             ))}
-          </CountriesWrapper>{" "}
-          <Pagination />
+          </CountriesWrapper>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            goToPage={goToPage}
+          />
         </>
       )}
     </>
