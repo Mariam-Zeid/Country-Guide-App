@@ -1,13 +1,13 @@
-const FlagImg = () => {
+const FlagImg = ({ flags }) => {
   return (
     <div className="flag-wrapper">
       <img
-        src="https://flagcdn.com/w320/eg.png"
-        alt="Egypt Flag"
+        src={flags?.png || flags?.svg}
+        alt={flags?.alt}
         className="rounded"
       />
     </div>
   );
-}
- 
+};
+
 export default FlagImg;
