@@ -11,12 +11,19 @@
   --font-nunito: "Nunito Sans", sans-serif;
 }
 
+.dark {
+  --color-primary: hsl(0, 0%, 100%);
+  --color-main: hsl(207, 26%, 17%);
+  --color-element: hsl(209, 23%, 22%);
+  --color-input: hsl(0, 0%, 89%);
+}
+
 @utility container {
   @apply max-w-screen-2xl mx-auto px-4;
 }
 
 body {
-  @apply bg-main text-primary min-h-screen font-nunito;
+  @apply bg-main text-primary min-h-screen font-nunito transition-all duration-150;
 }
 
 img {

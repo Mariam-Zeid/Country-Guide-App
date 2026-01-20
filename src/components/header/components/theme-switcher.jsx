@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMoon } from "react-icons/io5";
 import { FaSun } from "react-icons/fa";
 
 const ThemeSwitcher = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
+  // ! OLD WAY
+  // const toggleTheme = () => {
+  //   const nextTheme = theme === "light" ? "dark" : "light";
+  //   setTheme(nextTheme);
+  //   localStorage.setItem("theme", nextTheme);
+  // };
+
   const toggleTheme = () => {
-    const nextTheme = theme === "light" ? "dark" : "light";
-    setTheme(nextTheme);
-    localStorage.setItem("theme", nextTheme);
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
+
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   return (
     <div
